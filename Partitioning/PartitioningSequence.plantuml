@@ -1,0 +1,36 @@
+@startuml
+
+group from reduction stage
+    Conditional -> IReducable : subscribe
+    Reduction -> IReducable : subscribe
+end
+loop IReducable in queue
+    Partitioner -> IReducable : visit
+    IReducable -> Conditional : getHeuristicSum
+    Conditional -> IReducable : getValue
+        loop call reductions in order of priority to get value
+        Conditional -> Reduction : getHeuristicAtValue
+        Reduction -> Conditional : heuristic
+    end
+    IReducable --> Conditional : value
+    loop call reductions in order of priority
+        Conditional -> Conditional : Check next \nsubscribed reduction
+    end
+end
+@enduml
+
+Partition function to conditional : If i change value by X how many subscribed reductions are activated?
+returns heuristic value per condition (first conditions when multiple much lower value)
+partition function determines direction of propagation, seperate forwards and backwards pass
+partition visitor keeps track of highest encountered heuristic
+
+Add missing subscriptions for reductions before partitioning step
+
+
+Priority between reductions and partitioning
+
+Need n splits to partition vs Power reduction with x*y ingoing/outgoing
+
+easy to increase heuristics, just pass -2 as value to conditional instead of -1(outgoing reduced by 2)
+
+define heuristic value of IReducable as function of other IReducable!

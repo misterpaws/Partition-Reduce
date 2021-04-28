@@ -1,0 +1,30 @@
+@startuml
+actor User
+User -> verifyer : RealModel
+verifyer -> reducer : RealModel
+loop model can be reduced
+    reducer -> reducer : ReducedModel
+    end
+reducer --> verifyer : FullyReducedModel   
+loop we have not reached our maximum partition depth
+    verifyer -> partitioner : FullyReducedModel
+    partitioner -> verifyer : PartitionA
+    partitioner -> verifyer : PartitionB
+else heuristic says stop partitioning
+verifyer -> reducer : PartitionA
+reducer -> reducer : ReducedPartitionA
+reducer -> verifyer : FullyReducedPartitionA
+verifyer -> partitioner : FullyReducedPartitionA
+partitioner -> verifyer : PartitionAA
+partitioner -> verifyer : PartitionAB
+verifyer -> explorerAA : initialstate
+explorerAA -> explorerAA : derivedstate
+explorerAA -> explorerAB : externalstate
+explorerAA --> verifyer : all states explored
+verifyer -> explorerAB : start
+explorerAB -> explorerAB : derivedstate
+explorerAB -> explorerAA : externalstate
+explorerAA -> explorerAA : derivedstate
+explorerAA --> verifyer :Querry Satisfied
+verifyer -> User : Satisfied
+@enduml

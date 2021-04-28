@@ -1,0 +1,121 @@
+@startuml model
+
+class Edge
+{
+    Location source 
+    Location destination
+    GuardCollection guards
+    UpdateCollection updates
+}
+class Verifyer
+{
+    Partition[] partitions
+    StateCluster[] passedList
+    bool Verify(Query)
+}
+Class UpdateCollection
+{
+    Update[] updates
+    GuardCollection Predate(GuardCollection)
+    GuardCollection Postdate(GuardCollection)
+    UpdateCollection Merge(UpdateCollection)
+}
+class StateCluster
+{
+    GuardCollection variableRange
+    Location location
+}
+interface IReducable
+{
+    accept(ModelVisitor)
+}
+class Partition
+{
+    Explorer explorer
+    Model model
+    JumpEdge[] outgoingJumpEdges
+    JumpEdge[] ingoingJumpEdges
+}
+class JumpEdge
+{
+    Partition source
+    Partition destination
+}
+
+class Location
+{
+    Edge[] incoming
+    Edge[] outgoing
+    GuardCollection invariants
+    int id 
+}
+
+class  Guard
+{
+    int min 
+    int max 
+    Guard NULLGUARD
+    Guard OPENGUARD
+    guard intersection(Guard)
+    guard dominates(Guard)
+    guard predate(Update)
+    guard postdate(Update)
+}
+
+abstract class Update
+{
+    char variable
+    int value
+    Guard apply(Guard)
+    update updateMerge(assignGuard)
+    update updateMerge(plusGuard)
+    update updateMerge(minusGuard)
+}
+class Model
+{
+    Location startLocation
+    Edge[] edges
+    Location[] locations
+    Location[] criticalLocations
+}
+class GuardCollection
+{
+    Guard[] guards
+    GuardCollection intersection(GuardCollection)
+    GuardCollection dominates(GuardCollection)
+    GuardCollection predate(GuardCollection)
+    GuardCollection postdate(GuardCollection)
+}
+class Explorer
+{
+    StateCluster[] waitingQueue
+}
+interface ModelVisitor
+{
+    void visit(Edge)
+    void visit(Location)
+}
+IReducable <|-- Location
+IReducable <|-- Edge
+Update <|-- AssignUpdate
+Update <|-- MinusUpdate
+Update <|-- PlusUpdate
+Edge <|-- JumpEdge
+ModelVisitor <|-- Explorer
+
+Location "0..*" *-- "2" Edge
+Location "1" *-- GuardCollection
+GuardCollection "0..*" *-- Guard
+Edge "1" *-- GuardCollection
+Edge "1" *-- UpdateCollection
+Model "0..*" *-- Edge
+UpdateCollection "0..*" *-- Update
+Model "1..*" *-- Location
+Partition "1" *-- Model
+Partition "1" *-- Explorer
+Explorer "0..*" *-- StateCluster
+StateCluster "1" *-- GuardCollection
+
+Verifyer "1..*" *-- Partition
+
+@enduml

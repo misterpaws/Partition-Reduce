@@ -1,0 +1,83 @@
+@startuml exploration
+
+interface IReducable
+{
+    +accept(visitor)
+}
+
+abstract class Argument
+{
+
+}
+class IntegerArgument
+{
+    expression {<=,==,>=}
+    int value
+    +bool IsSatisfiedBy(int)
+}
+
+abstract class ModelVisitor
+{
+    Partition target
+    visit(Location)
+    visit(Edge)
+}
+
+abstract class ConditionalSubscriber
+{
+    Argument argumentToSatisfy
+    int priority
+    Conditional subscribeTarget
+        +NotifyTrue()
+    +NotifyFalse()
+}
+
+class IntegerConditionalSubscriber
+{
+    IntegerArgument argumentToSatisfy
+    IntegerConditional subscribeTarget
+}
+
+class IntegerConditional
+{
+    IntegerConditionalSubscriber[] subscribers
+}
+
+abstract class Conditional
+{
+    +listen(ConditionalListener)
+}
+
+
+abstract class Reduction
+{
+    ConditionalSubscriber[]
+    +Reduce(IReducable)
+    +void instantiate (IReducable)
+    +OnConditionMet(ConditionalSubscriber)
+}
+
+
+class Checker
+{
+    Reduction[] reductionsToApply
+    IReducable[] pendingQueue
+}
+
+Argument <|-- IntegerArgument
+ConditionalSubscriber <|-- IntegerConditionalSubscriber
+Conditional  <|-- IntegerConditional
+IReducable <|-- Location
+IReducable <|-- Edge
+ModelVisitor <|-- Checker
+ModelVisitor <|-- Reducer
+
+Reduction "0..*" *-- "*" ConditionalSubscriber
+
+Conditional "1..*" --* "1" ConditionalSubscriber
+
+ConditionalSubscriber "1..*" *-- "1" Argument
+
+Conditional  "0..*" *-- "1" IReducable
+
+@enduml

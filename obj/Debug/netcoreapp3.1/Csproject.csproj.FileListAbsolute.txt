@@ -1,0 +1,13 @@
+C:\Users\Thato\Desktop\Csproject\bin\Debug\netcoreapp3.1\Csproject.exe
+C:\Users\Thato\Desktop\Csproject\bin\Debug\netcoreapp3.1\Csproject.deps.json
+C:\Users\Thato\Desktop\Csproject\bin\Debug\netcoreapp3.1\Csproject.runtimeconfig.json
+C:\Users\Thato\Desktop\Csproject\bin\Debug\netcoreapp3.1\Csproject.runtimeconfig.dev.json
+C:\Users\Thato\Desktop\Csproject\bin\Debug\netcoreapp3.1\Csproject.dll
+C:\Users\Thato\Desktop\Csproject\bin\Debug\netcoreapp3.1\Csproject.pdb
+C:\Users\Thato\Desktop\Csproject\obj\Debug\netcoreapp3.1\Csproject.csprojAssemblyReference.cache
+C:\Users\Thato\Desktop\Csproject\obj\Debug\netcoreapp3.1\Csproject.AssemblyInfoInputs.cache
+C:\Users\Thato\Desktop\Csproject\obj\Debug\netcoreapp3.1\Csproject.AssemblyInfo.cs
+C:\Users\Thato\Desktop\Csproject\obj\Debug\netcoreapp3.1\Csproject.csproj.CoreCompileInputs.cache
+C:\Users\Thato\Desktop\Csproject\obj\Debug\netcoreapp3.1\Csproject.dll
+C:\Users\Thato\Desktop\Csproject\obj\Debug\netcoreapp3.1\Csproject.pdb
+C:\Users\Thato\Desktop\Csproject\obj\Debug\netcoreapp3.1\Csproject.genruntimeconfig.cache

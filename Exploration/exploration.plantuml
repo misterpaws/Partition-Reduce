@@ -1,0 +1,51 @@
+@startuml exploration
+
+interface TransformingVisitor
+{
+    visit(edge)
+    visit(location)
+}
+
+interface transformable
+{
+    accept(visitor)
+}
+interface explorable
+{
+    accept(eVisitor)
+}
+
+class explorer
+{
+    model model
+    stateCluster query
+    stateCluster[] waitingQueue
+    stateCluster[] explorefrom(stateCluster)
+}
+
+class stateCluster
+{
+    location loc 
+    guard[] variables
+    stateCluster ApplyGuard(guard[])
+    stateCluster ApplyUpdates(update[])
+}
+class verifyer
+{
+    bool verify(model,querry)
+    stateCluster[] passed
+}
+
+transformable <|-- edge
+transformable <|-- location
+verifyer "1..*" *-- stateCluster
+TransformingVisitor <|-- reducer
+stateCluster "0..*" *-- guard
+TransformingVisitor <|-- partitioner
+
+explorer "1..*" *-- verifyer
+partitioner "1..*" *-- verifyer
+reducer "1..*" *-- verifyer
+
+
+@enduml

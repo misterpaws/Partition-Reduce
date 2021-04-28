@@ -1,0 +1,22 @@
+@startuml
+Reduction -> Conditional : subscribe
+Conditional -> IReducable : subscribe
+loop IReducable in queue
+    reducer -> IReducable : visit
+    IReducable -> Conditional : compute
+    Conditional -> IReducable : getValue
+    IReducable --> Conditional : value
+    loop call reductions in order of priority
+        Conditional -> Conditional : Check next \nsubscribed reduction
+        alt Reduction condition is met
+            Conditional -> Reduction : Reduce IReducable
+            Reduction -> Model : Remove IReducables
+            Reduction -> Model : Add IReducables
+            Reduction -> Conditional : Recalculate relevant \nConditionals per function
+            Reduction -> reducer : Add new IReducables to queue
+        end
+    
+    end
+end
+@enduml
+//reductions can trigger multiple new reductions inside itself :TODO

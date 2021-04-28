@@ -1,0 +1,44 @@
+@startuml model
+
+class Condition
+{
+    location source 
+    location destination
+    guard[] guards
+}
+class Reduction
+{
+
+}
+class Edge 
+{
+
+}
+class EdgeCondition
+class OutgoingConditions
+{
+
+}
+class IncomingConditions
+{
+
+}
+class LocationCondition
+{
+
+}
+class GuardCondition
+{
+
+}
+Class SourceCondition
+{
+
+}
+Class DestinationCondition
+{
+    
+}
+condition "0..*" --* reduction
+
+@enduml
